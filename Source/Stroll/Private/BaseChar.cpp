@@ -30,9 +30,13 @@ void ABaseChar::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+	// Set up "movement" bindings.
 	PlayerInputComponent->BindAxis("MoveForward", this, &ABaseChar::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &ABaseChar::MoveRight);
 
+	// Set up "look" bindings.
+	PlayerInputComponent->BindAxis("Turn", this, &ABaseChar::AddControllerYawInput);
+	PlayerInputComponent->BindAxis("LookUp", this, &ABaseChar::AddControllerPitchInput);
 }
 
 void ABaseChar::MoveForward(float Value)
