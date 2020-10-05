@@ -30,5 +30,23 @@ void ABaseChar::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+	PlayerInputComponent->BindAxis("MoveForward", this, &ABaseChar::MoveForward);
+	PlayerInputComponent->BindAxis("MoveRight", this, &ABaseChar::MoveRight);
+
 }
 
+void ABaseChar::MoveForward(float Value)
+{
+	// Find out which way is "forward" and record that the player wants to move that way.
+
+	FVector Direction = FRotationMatrix(Controller->GetControlRotation()).GetScaledAxis(EAxis::X);
+	AddMovementInput(Direction, Value);
+	
+}
+
+void ABaseChar::MoveRight(float Value)
+{
+	// Find out which way is "right" and record that the player wants to move that way.
+	FVector Direction = FRotationMatrix(Controller->GetControlRotation()).GetScaledAxis(EAxis::Y);
+	AddMovementInput(Direction, Value);
+}
