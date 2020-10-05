@@ -37,6 +37,10 @@ void ABaseChar::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	// Set up "look" bindings.
 	PlayerInputComponent->BindAxis("Turn", this, &ABaseChar::AddControllerYawInput);
 	PlayerInputComponent->BindAxis("LookUp", this, &ABaseChar::AddControllerPitchInput);
+
+	// Set up "action" bindings.
+	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ABaseChar::StartJump);
+	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ABaseChar::StopJump);
 }
 
 void ABaseChar::MoveForward(float Value)
@@ -53,4 +57,14 @@ void ABaseChar::MoveRight(float Value)
 	// Find out which way is "right" and record that the player wants to move that way.
 	FVector Direction = FRotationMatrix(Controller->GetControlRotation()).GetScaledAxis(EAxis::Y);
 	AddMovementInput(Direction, Value);
+}
+
+void ABaseChar::StartJump()
+{
+	bPressedJump = true;
+}
+
+void ABaseChar::StopJump()
+{
+	bPressedJump = false;
 }
