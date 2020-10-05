@@ -2,6 +2,7 @@
 
 
 #include "BaseChar.h"
+#include "Camera/CameraComponent.h"
 
 // Sets default values
 ABaseChar::ABaseChar()
@@ -9,6 +10,13 @@ ABaseChar::ABaseChar()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("CameraComponent"));
+	CameraComponent->SetupAttachment(RootComponent);
+
+	// Position the camera slightly above the eyes.
+	CameraComponent->SetRelativeLocation(FVector(0.0f, 0.0f, 100.0f + BaseEyeHeight));
+	// Allow the pawn to control camera rotation.
+	CameraComponent->bUsePawnControlRotation = true;
 }
 
 // Called when the game starts or when spawned

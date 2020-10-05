@@ -41,4 +41,8 @@ public:
 	// Clears jump flag when key is released.
 	UFUNCTION()
     void StopJump();
+
+	// FPS camera.
+	UPROPERTY(VisibleAnywhere)
+	class UCameraComponent* CameraComponent;
 };
