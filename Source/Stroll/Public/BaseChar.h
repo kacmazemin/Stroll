@@ -21,6 +21,18 @@ protected:
 
 	UPROPERTY(VisibleAnywhere)
 	class USpringArmComponent* SpringArmComponent;
+
+	UPROPERTY(EditAnywhere)
+	float ZoomSteps = 10.0f;
+	
+	UPROPERTY(EditAnywhere)
+	float CameraMaxDistance = 650.0f;
+	
+	UPROPERTY(EditAnywhere)
+	float CameraMinDistance = 200.0f;
+
+	UPROPERTY(EditAnywhere)
+	float CameraCurrentDistance = 350.0f;
 	
 public:	
 	// Called every frame
@@ -36,6 +48,12 @@ public:
 	// Handles input for moving right and left.
 	UFUNCTION()
     void MoveRight(float Value);
+
+	UFUNCTION()
+	void ZoomIn();
+	
+	UFUNCTION()
+	void ZoomOut();
 
 	// Sets jump flag when key is pressed.
 	UFUNCTION()

@@ -25,7 +25,7 @@ ABaseChar::ABaseChar()
 	// Create a camera boom (pulls in towards the player if there is a collision)
 	SpringArmComponent = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
 	SpringArmComponent->SetupAttachment(RootComponent);
-	SpringArmComponent->TargetArmLength = 350.0f; // The camera follows at this distance behind the character	
+	SpringArmComponent->TargetArmLength = CameraCurrentDistance; // The camera follows at this distance behind the character	
 	SpringArmComponent->bUsePawnControlRotation = true; // Rotate the arm based on the controller
 		
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("CameraComponent"));
@@ -63,6 +63,8 @@ void ABaseChar::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	// Set up "action" bindings.
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ABaseChar::StartJump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ABaseChar::StopJump);
+	PlayerInputComponent->BindAction("ZoomIn", IE_Pressed, this, &ABaseChar::ZoomIn);
+	PlayerInputComponent->BindAction("ZoomOut", IE_Pressed, this, &ABaseChar::ZoomOut);
 }
 
 void ABaseChar::MoveForward(float Value)
@@ -79,6 +81,28 @@ void ABaseChar::MoveRight(float Value)
 	// Find out which way is "right" and record that the player wants to move that way.
 	FVector Direction = FRotationMatrix(Controller->GetControlRotation()).GetScaledAxis(EAxis::Y);
 	AddMovementInput(Direction, Value);
+}
+
+void ABaseChar::ZoomIn()
+{
+	CameraCurrentDistance -= ZoomSteps;
+	if (CameraCurrentDistance < CameraMinDistance)
+	{
+		CameraCurrentDistance = CameraMinDistance;
+	}
+
+	SpringArmComponent->TargetArmLength = CameraCurrentDistance;
+}
+
+void ABaseChar::ZoomOut()
+{
+	CameraCurrentDistance += ZoomSteps;
+	if (CameraCurrentDistance > CameraMaxDistance)
+	{
+		CameraCurrentDistance = CameraMaxDistance;
+	}
+
+	SpringArmComponent->TargetArmLength = CameraCurrentDistance;
 }
 
 void ABaseChar::StartJump()
