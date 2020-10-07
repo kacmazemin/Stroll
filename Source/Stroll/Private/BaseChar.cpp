@@ -45,10 +45,6 @@ void ABaseChar::BeginPlay()
 void ABaseChar::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	FRotator newRotator = GetActorRotation();
-	FRotator newPitch = SpringArmComponent->GetComponentRotation();
-
 }
 
 // Called to bind functionality to input
