@@ -21,6 +21,7 @@ ABaseChar::ABaseChar()
 	GetCharacterMovement()->RotationRate = FRotator(0.0f, 540.0f, 0.0f); // ...at this rotation rate
 	GetCharacterMovement()->JumpZVelocity = 600.f;
 	GetCharacterMovement()->AirControl = 0.2f;
+	GetCharacterMovement()->MaxWalkSpeed = 150.f;
 
 	// Create a camera boom (pulls in towards the player if there is a collision)
 	SpringArmComponent = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
@@ -65,23 +66,23 @@ void ABaseChar::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ABaseChar::StopJump);
 	PlayerInputComponent->BindAction("ZoomIn", IE_Pressed, this, &ABaseChar::ZoomIn);
 	PlayerInputComponent->BindAction("ZoomOut", IE_Pressed, this, &ABaseChar::ZoomOut);
+	
+	PlayerInputComponent->BindAction("MovementSpeed", IE_Pressed, this, &ABaseChar::StartRun);
+	PlayerInputComponent->BindAction("MovementSpeed", IE_Released, this, &ABaseChar::StopRun);
 }
 
 void ABaseChar::MoveForward(float Value)
 {
-
 	// Find out which way is "forward" and record that the player wants to move that way.
 
 	const FRotator YawOnlyRotation = FRotator(0.0f, GetControlRotation().Yaw, 0.0f);
     AddMovementInput(FRotationMatrix(YawOnlyRotation).GetUnitAxis(EAxis::X), Value);
-	
 }
 
 void ABaseChar::MoveRight(float Value)
 {
 	// Find out which way is "right" and record that the player wants to move that way.
 	const FVector Direction = FRotationMatrix(Controller->GetControlRotation()).GetScaledAxis(EAxis::Y);
-
 	AddMovementInput(Direction, Value);
 }
 
@@ -115,4 +116,15 @@ void ABaseChar::StartJump()
 void ABaseChar::StopJump()
 {
 	bPressedJump = false;
+}
+
+void ABaseChar::StartRun()
+{
+	GetCharacterMovement()->MaxWalkSpeed = 600.f;
+}
+
+void ABaseChar::StopRun()
+{
+	GetCharacterMovement()->MaxWalkSpeed = 150.f;
+
 }

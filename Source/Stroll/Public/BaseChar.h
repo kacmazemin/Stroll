@@ -63,6 +63,12 @@ public:
 	UFUNCTION()
     void StopJump();
 
+	UFUNCTION()
+	void StartRun();
+	
+	UFUNCTION()
+	void StopRun();
+
 	// FPS camera.
 	UPROPERTY(VisibleAnywhere)
 	class UCameraComponent* CameraComponent;
