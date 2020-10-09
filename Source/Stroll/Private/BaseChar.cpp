@@ -39,13 +39,16 @@ ABaseChar::ABaseChar()
 void ABaseChar::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	CurrentStamina = MaxStamina;
 }
 
 // Called every frame
 void ABaseChar::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	
+	HandleStamina(DeltaTime);
 }
 
 // Called to bind functionality to input
@@ -120,11 +123,39 @@ void ABaseChar::StopJump()
 
 void ABaseChar::StartRun()
 {
-	GetCharacterMovement()->MaxWalkSpeed = 600.f;
+	bIsSprinting = true;
 }
 
 void ABaseChar::StopRun()
 {
-	GetCharacterMovement()->MaxWalkSpeed = 150.f;
+	bIsSprinting = false;
+}
 
+void ABaseChar::HandleStamina(const float DeltaTime)
+{
+	if(bIsSprinting)
+	{
+		CurrentStamina = FMath::Clamp(CurrentStamina - (1.f * DeltaTime), 0.f, MaxStamina);
+		if(CurrentStamina > 0)
+		{
+			GetCharacterMovement()->MaxWalkSpeed = 600.f;
+		}
+		else
+		{
+			GetCharacterMovement()->MaxWalkSpeed = 150.f;
+		}
+	}
+	else
+	{
+		GetCharacterMovement()->MaxWalkSpeed = 150.f;
+
+		Timer += DeltaTime;
+		if(Timer > 3.0f)
+		{
+			Timer = 0.f;
+			CurrentStamina = FMath::Clamp((CurrentStamina + 3.f), 0.f, MaxStamina);
+		}
+	}
+
+	UE_LOG(LogTemp, Warning, TEXT("CurrentStamina %f"), CurrentStamina);
 }

@@ -33,6 +33,12 @@ protected:
 
 	UPROPERTY(EditAnywhere)
 	float CameraCurrentDistance = 350.0f;
+
+	UPROPERTY()
+	float CurrentStamina = 0.f;
+
+	UPROPERTY()
+	float MaxStamina = 5.f;
 	
 public:	
 	// Called every frame
@@ -72,4 +78,11 @@ public:
 	// FPS camera.
 	UPROPERTY(VisibleAnywhere)
 	class UCameraComponent* CameraComponent;
+	
+private:
+	float Timer = 0.f;
+	
+	bool bIsSprinting = false;
+
+	void HandleStamina(const float DeltaTime);
 };
