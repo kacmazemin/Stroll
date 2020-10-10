@@ -144,16 +144,16 @@ void ABaseChar::HandleStamina(const float DeltaTime)
 		{
 			GetCharacterMovement()->MaxWalkSpeed = 150.f;
 		}
+		Timer = .0f;
 	}
 	else
 	{
 		GetCharacterMovement()->MaxWalkSpeed = 150.f;
-
+		
 		Timer += DeltaTime;
-		if(Timer > 3.0f)
+		if(Timer > 2.0f)
 		{
-			Timer = 0.f;
-			CurrentStamina = FMath::Clamp((CurrentStamina + 3.f), 0.f, MaxStamina);
+			CurrentStamina = FMath::Clamp((CurrentStamina + 0.025f), 0.f, MaxStamina);
 		}
 	}
 
