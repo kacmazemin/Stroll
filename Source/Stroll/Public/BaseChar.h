@@ -40,6 +40,9 @@ protected:
 	UPROPERTY()
 	float MaxStamina = 5.f;
 	
+	UFUNCTION(BlueprintImplementableEvent, Category = "UI")
+	void OnStaminaChanged(const float value);
+	
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

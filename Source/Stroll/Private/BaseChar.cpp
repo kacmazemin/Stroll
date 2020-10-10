@@ -157,5 +157,7 @@ void ABaseChar::HandleStamina(const float DeltaTime)
 		}
 	}
 
+	OnStaminaChanged(CurrentStamina);
+
 	UE_LOG(LogTemp, Warning, TEXT("CurrentStamina %f"), CurrentStamina);
 }
