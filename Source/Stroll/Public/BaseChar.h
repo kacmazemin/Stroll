@@ -75,6 +75,8 @@ private:
 	float Timer = 0.f;
 	
 	bool bIsSprinting = false;
+	
+	FHitResult Hit;
 
 	void HandleStamina(const float DeltaTime);
 };

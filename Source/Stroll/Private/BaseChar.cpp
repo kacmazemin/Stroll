@@ -141,14 +141,19 @@ void ABaseChar::StopRun()
 
 void ABaseChar::InteractPressed()
 {
-
+	if(Hit.GetActor())
+	{
+		if(Hit.GetActor()->ActorHasTag("Sword"))
+		{
+			Hit.GetActor()->AttachToComponent(GetMesh(),FAttachmentTransformRules::SnapToTargetIncludingScale, TEXT("Socket_Weapon"));
+		}
+	}
 }
 
 void ABaseChar::TraceLine()
 {
 	FVector Loc;
 	FRotator Rot;
-	FHitResult Hit;
 
 	GetController()->GetPlayerViewPoint(Loc, Rot);
 
@@ -201,6 +206,4 @@ void ABaseChar::HandleStamina(const float DeltaTime)
 	}
 
 	OnStaminaChanged(CurrentStamina);
-
-	UE_LOG(LogTemp, Warning, TEXT("CurrentStamina %f"), CurrentStamina);
 }
