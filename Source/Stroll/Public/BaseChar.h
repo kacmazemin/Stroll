@@ -22,6 +22,9 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 	class USpringArmComponent* SpringArmComponent;
 
+	UPROPERTY(VisibleAnywhere)
+	class UCameraComponent* CameraComponent;
+
 	UPROPERTY(EditAnywhere)
 	float ZoomSteps = 10.0f;
 	
@@ -50,37 +53,16 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	// Handles input for moving forward and backward.
-	UFUNCTION()
-    void MoveForward(float Value);
-
-	// Handles input for moving right and left.
-	UFUNCTION()
-    void MoveRight(float Value);
-
-	UFUNCTION()
+protected:
+	
+	void MoveForward(float Value);
+	void MoveRight(float Value);
 	void ZoomIn();
-	
-	UFUNCTION()
 	void ZoomOut();
-
-	// Sets jump flag when key is pressed.
-	UFUNCTION()
-    void StartJump();
-
-	// Clears jump flag when key is released.
-	UFUNCTION()
-    void StopJump();
-
-	UFUNCTION()
+	void StartJump();
+	void StopJump();
 	void StartRun();
-	
-	UFUNCTION()
 	void StopRun();
-
-	// FPS camera.
-	UPROPERTY(VisibleAnywhere)
-	class UCameraComponent* CameraComponent;
 	
 private:
 	float Timer = 0.f;
