@@ -141,11 +141,15 @@ void ABaseChar::StopRun()
 
 void ABaseChar::InteractPressed()
 {
+	//todo change this code block after inventory system implemented
 	if(Hit.GetActor())
 	{
-		if(Hit.GetActor()->ActorHasTag("Sword"))
+		if(Hit.GetActor()->ActorHasTag("Sword") && !Sword)
 		{
 			Hit.GetActor()->AttachToComponent(GetMesh(),FAttachmentTransformRules::SnapToTargetIncludingScale, TEXT("Socket_Weapon"));
+			Sword = Hit.GetActor();
+			Sword->SetActorEnableCollision(false);
+			IsSwordUp = true;
 		}
 	}
 }

@@ -56,6 +56,9 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GamePlay")
+	bool IsSwordUp = false;
+	
 protected:
 	
 	void MoveForward(float Value);
@@ -77,6 +80,8 @@ private:
 	bool bIsSprinting = false;
 	
 	FHitResult Hit;
+	
+	AActor* Sword;
 
 	void HandleStamina(const float DeltaTime);
 };
