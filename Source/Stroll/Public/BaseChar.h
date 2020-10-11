@@ -25,6 +25,9 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 	class UCameraComponent* CameraComponent;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Interaction")
+	float TraceDistance;
+
 	UPROPERTY(EditAnywhere)
 	float ZoomSteps = 10.0f;
 	
@@ -63,6 +66,10 @@ protected:
 	void StopJump();
 	void StartRun();
 	void StopRun();
+
+	void InteractPressed();
+	
+	void TraceLine();
 	
 private:
 	float Timer = 0.f;

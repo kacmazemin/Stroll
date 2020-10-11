@@ -2,6 +2,8 @@
 
 
 #include "BaseChar.h"
+
+#include "DrawDebugHelpers.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -33,6 +35,7 @@ ABaseChar::ABaseChar()
 	CameraComponent->AttachTo(SpringArmComponent, USpringArmComponent::SocketName);
 	CameraComponent->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 
+	TraceDistance = 2000.f;
 }
 
 // Called when the game starts or when spawned
@@ -48,7 +51,10 @@ void ABaseChar::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	
+	TraceLine();
+	
 	HandleStamina(DeltaTime);
+	
 }
 
 // Called to bind functionality to input
@@ -72,6 +78,8 @@ void ABaseChar::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	
 	PlayerInputComponent->BindAction("MovementSpeed", IE_Pressed, this, &ABaseChar::StartRun);
 	PlayerInputComponent->BindAction("MovementSpeed", IE_Released, this, &ABaseChar::StopRun);
+
+	PlayerInputComponent->BindAction("Interact", IE_Pressed, this, &ABaseChar::InteractPressed);
 }
 
 void ABaseChar::MoveForward(float Value)
@@ -129,6 +137,41 @@ void ABaseChar::StartRun()
 void ABaseChar::StopRun()
 {
 	bIsSprinting = false;
+}
+
+void ABaseChar::InteractPressed()
+{
+
+}
+
+void ABaseChar::TraceLine()
+{
+	FVector Loc;
+	FRotator Rot;
+	FHitResult Hit;
+
+	GetController()->GetPlayerViewPoint(Loc, Rot);
+
+	FVector Start = Loc;
+	FVector End = Start + (Rot.Vector() * TraceDistance);
+
+	FCollisionQueryParams TraceParams;
+
+	bool bHit = GetWorld()->LineTraceSingleByChannel(Hit, Start, End, ECC_Visibility, TraceParams);
+
+	DrawDebugPoint(GetWorld(), Start, 2.f,FColor::Yellow, false, 2.f);
+
+	if(bHit && Hit.GetActor())
+	{
+		DrawDebugBox(GetWorld(), Hit.ImpactPoint, FVector(5, 5,5), FColor::Green, false, 2.f);
+
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, Hit.GetActor()->GetName());
+	}
+	else
+	{
+		GEngine->ClearOnScreenDebugMessages();
+	}
+	
 }
 
 void ABaseChar::HandleStamina(const float DeltaTime)
