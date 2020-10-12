@@ -73,6 +73,8 @@ protected:
 	void InteractPressed();
 	
 	void TraceLine();
+
+	void Attack();
 	
 private:
 	float Timer = 0.f;

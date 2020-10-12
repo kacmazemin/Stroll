@@ -3,6 +3,8 @@
 
 #include "BaseChar.h"
 
+
+#include "BaseCharAnimInstance.h"
 #include "DrawDebugHelpers.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -80,6 +82,8 @@ void ABaseChar::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	PlayerInputComponent->BindAction("MovementSpeed", IE_Released, this, &ABaseChar::StopRun);
 
 	PlayerInputComponent->BindAction("Interact", IE_Pressed, this, &ABaseChar::InteractPressed);
+	
+	PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &ABaseChar::Attack);
 }
 
 void ABaseChar::MoveForward(float Value)
@@ -181,6 +185,16 @@ void ABaseChar::TraceLine()
 		GEngine->ClearOnScreenDebugMessages();
 	}
 	
+}
+
+void ABaseChar::Attack()
+{
+	UBaseCharAnimInstance* BaseCharAnimInstance = Cast<UBaseCharAnimInstance>(GetMesh()->GetAnimInstance());
+
+	if(BaseCharAnimInstance)
+	{
+		BaseCharAnimInstance->Attack();
+	}
 }
 
 void ABaseChar::HandleStamina(const float DeltaTime)
