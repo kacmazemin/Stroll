@@ -191,7 +191,7 @@ void ABaseChar::Attack()
 {
 	UBaseCharAnimInstance* BaseCharAnimInstance = Cast<UBaseCharAnimInstance>(GetMesh()->GetAnimInstance());
 
-	if(BaseCharAnimInstance)
+	if(BaseCharAnimInstance && IsSwordUp)
 	{
 		BaseCharAnimInstance->Attack();
 	}
