@@ -225,3 +225,8 @@ void ABaseChar::HandleStamina(const float DeltaTime)
 
 	OnStaminaChanged(CurrentStamina);
 }
+
+void ABaseChar::UpdateHealth(const float HealthChange)
+{
+	Health = FMath::Clamp(Health + HealthChange, 0.f, 100.f );
+}

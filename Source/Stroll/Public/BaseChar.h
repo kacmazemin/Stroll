@@ -89,4 +89,5 @@ private:
 	AActor* Sword;
 
 	void HandleStamina(const float DeltaTime);
+	void UpdateHealth(const float HealthChange);
 };
