@@ -44,6 +44,9 @@ protected:
 	float CurrentStamina = 0.f;
 
 	UPROPERTY()
+	float Health = 100.f;
+	
+	UPROPERTY()
 	float MaxStamina = 5.f;
 	
 	UFUNCTION(BlueprintImplementableEvent, Category = "UI")
