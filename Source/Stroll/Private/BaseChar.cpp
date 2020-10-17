@@ -56,7 +56,20 @@ void ABaseChar::Tick(float DeltaTime)
 	TraceLine();
 	
 	HandleStamina(DeltaTime);
-	
+
+	AttackTimer += DeltaTime;
+
+	if(bIsMouseLeftButtonDown)
+	{
+
+		if(AttackTimer > 2.f)
+		{
+			Attack(true);
+			
+			bIsMouseLeftButtonDown = false;
+		}  
+		UE_LOG(LogTemp, Warning, TEXT("Attack Timer %f"), AttackTimer);
+	}
 }
 
 // Called to bind functionality to input
@@ -83,7 +96,9 @@ void ABaseChar::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 	PlayerInputComponent->BindAction("Interact", IE_Pressed, this, &ABaseChar::InteractPressed);
 	
-	PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &ABaseChar::Attack);
+	PlayerInputComponent->BindAction<FHandleMouse>("Attack", IE_Pressed, this, &ABaseChar::HandleMouse, true);
+	PlayerInputComponent->BindAction<FHandleMouse>("Attack", IE_Released, this, &ABaseChar::HandleMouse, false);
+
 }
 
 void ABaseChar::MoveForward(float Value)
@@ -107,8 +122,7 @@ void ABaseChar::ZoomIn()
 	if (CameraCurrentDistance < CameraMinDistance)
 	{
 		CameraCurrentDistance = CameraMinDistance;
-	}
-
+	}	
 	SpringArmComponent->TargetArmLength = CameraCurrentDistance;
 }
 
@@ -187,13 +201,23 @@ void ABaseChar::TraceLine()
 	
 }
 
-void ABaseChar::Attack()
+void ABaseChar::Attack(const bool IsHeavyAttack)
 {
+	const float time = GetWorld()->GetFirstPlayerController()->GetInputKeyTimeDown(FKey("LeftMouseButton"));
+	
+	
 	UBaseCharAnimInstance* BaseCharAnimInstance = Cast<UBaseCharAnimInstance>(GetMesh()->GetAnimInstance());
 
 	if(BaseCharAnimInstance && IsSwordUp)
 	{
-		BaseCharAnimInstance->Attack();
+		if(IsHeavyAttack)
+		{
+			BaseCharAnimInstance->HeavyAttack();
+		}
+		else
+		{
+			BaseCharAnimInstance->Attack();
+		}
 	}
 }
 
@@ -229,4 +253,19 @@ void ABaseChar::HandleStamina(const float DeltaTime)
 void ABaseChar::UpdateHealth(const float HealthChange)
 {
 	Health = FMath::Clamp(Health + HealthChange, 0.f, 100.f );
+}
+
+void ABaseChar::HandleMouse(const bool IsDown)
+{
+	bIsMouseLeftButtonDown = IsDown;
+
+	if(IsDown)
+	{
+		AttackTimer = 0.f;
+	}
+	else
+	{
+		Attack(AttackTimer > .5f);		
+	}
+	
 }
