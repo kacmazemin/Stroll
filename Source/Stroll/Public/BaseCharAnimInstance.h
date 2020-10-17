@@ -20,6 +20,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "AnimationUpdate")
 	UAnimMontage* MeleeAttackMontage;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "AnimationUpdate")
+	UAnimMontage* MeleeHeavyAttackMontage;
 
 	UFUNCTION(BlueprintCallable, Category = "AnimationUpdate")
 	void UpdateMovementSpeed();
@@ -34,5 +37,7 @@ protected:
 
 public:
 	/*Determines which attack animation will be played*/
-	void Attack();	
+	void Attack();
+
+	void HeavyAttack();
 };

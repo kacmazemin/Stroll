@@ -36,3 +36,8 @@ void UBaseCharAnimInstance::Attack()
         
     }    
 }
+
+void UBaseCharAnimInstance::HeavyAttack()
+{
+    Montage_Play(MeleeHeavyAttackMontage);
+}
