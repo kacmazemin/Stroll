@@ -178,11 +178,11 @@ void ABaseChar::TraceLine()
 	{
 		DrawDebugBox(GetWorld(), Hit.ImpactPoint, FVector(5, 5,5), FColor::Green, false, 2.f);
 
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, Hit.GetActor()->GetName());
+		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, Hit.GetActor()->GetName());
 	}
 	else
 	{
-		GEngine->ClearOnScreenDebugMessages();
+		//GEngine->ClearOnScreenDebugMessages();
 	}
 	
 }
