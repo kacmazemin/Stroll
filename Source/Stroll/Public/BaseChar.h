@@ -77,17 +77,24 @@ protected:
 	
 	void TraceLine();
 
-	void Attack();
+	void Attack(const bool IsHeavyAttack);
 	
 private:
 	float Timer = 0.f;
+	float AttackTimer = 0.f;
 	
 	bool bIsSprinting = false;
+
+	bool bIsMouseLeftButtonDown = false;
 	
 	FHitResult Hit;
 	
 	AActor* Sword;
 
+	//pass by parameter for bindAction
+	DECLARE_DELEGATE_OneParam(FHandleMouse, bool);
+
 	void HandleStamina(const float DeltaTime);
 	void UpdateHealth(const float HealthChange);
+	void HandleMouse(const bool IsDown);
 };
