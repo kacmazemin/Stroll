@@ -166,7 +166,7 @@ void ABaseChar::InteractPressed()
 		{
 			Hit.GetActor()->AttachToComponent(GetMesh(),FAttachmentTransformRules::SnapToTargetIncludingScale, TEXT("Socket_Weapon"));
 			Sword = Hit.GetActor();
-			Sword->SetActorEnableCollision(false);
+			//Sword->SetActorEnableCollision(false);
 			IsSwordUp = true;
 		}
 	}
@@ -186,18 +186,20 @@ void ABaseChar::TraceLine()
 
 	bool bHit = GetWorld()->LineTraceSingleByChannel(Hit, Start, End, ECC_Visibility, TraceParams);
 
-	DrawDebugPoint(GetWorld(), Start, 2.f,FColor::Yellow, false, 2.f);
+	//DrawDebugPoint(GetWorld(), Start, 2.f,FColor::Yellow, false, 2.f);
 
+	/*
 	if(bHit && Hit.GetActor())
 	{
 		DrawDebugBox(GetWorld(), Hit.ImpactPoint, FVector(5, 5,5), FColor::Green, false, 2.f);
 
-		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, Hit.GetActor()->GetName());
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, Hit.GetActor()->GetName());
 	}
 	else
 	{
-		//GEngine->ClearOnScreenDebugMessages();
+		GEngine->ClearOnScreenDebugMessages();
 	}
+	*/
 	
 }
 
