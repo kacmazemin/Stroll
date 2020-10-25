@@ -16,6 +16,12 @@ void UAttackAnimnotifyState::NotifyTick(USkeletalMeshComponent* MeshComp, UAnimS
     
         FCollisionQueryParams Params;
         Params.bTraceComplex = true;
+
+        AActor* IgnoreActor = Cast<AActor>(MeshComp->GetAttachParent()->GetAttachmentRootActor());
+        if (IgnoreActor)
+        {
+            Params.AddIgnoredActor(IgnoreActor);
+        }
         
         DrawDebugCapsule(MeshComp->GetWorld(), EndPos, 50.f, 15.f, MeshComp->GetSocketQuaternion("SocketTrail_End"), FColor::Black, false,5.f);
         
