@@ -3,6 +3,7 @@
 
 #include "AttackAnimnotifyState.h"
 
+#include "BaseAIEnemey.h"
 #include "DrawDebugHelpers.h"
 
 void UAttackAnimnotifyState::NotifyTick(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation, float FrameDeltaTime)
@@ -23,15 +24,35 @@ void UAttackAnimnotifyState::NotifyTick(USkeletalMeshComponent* MeshComp, UAnimS
             Params.AddIgnoredActor(IgnoreActor);
         }
         
-        DrawDebugCapsule(MeshComp->GetWorld(), EndPos, 50.f, 15.f, MeshComp->GetSocketQuaternion("SocketTrail_End"), FColor::Black, false,5.f);
+       // DrawDebugCapsule(MeshComp->GetWorld(), EndPos, 50.f, 15.f, MeshComp->GetSocketQuaternion("SocketTrail_End"), FColor::Black, false,5.f);
         
         bool bHit = MeshComp->GetWorld()->SweepSingleByChannel(Result, StartPos, EndPos, FQuat::Identity, ECC_Pawn, FCollisionShape::MakeCapsule(15.f,50.f), Params);
     
         if(bHit && Result.GetActor())
         {
-            DrawDebugCapsule(MeshComp->GetWorld(), Result.ImpactPoint, 50.f, 15.f, MeshComp->GetSocketQuaternion("SocketTrail_End"), FColor::Purple, false,5.f);
+            ABaseAIEnemey* EnemyActor = Cast<ABaseAIEnemey>(Result.GetActor());
+            
+            if(EnemyActor)
+            {
+                if(bIsFirstTime)
+                {
+                    EnemyActor->TakeDamage(10.f);
+                    bIsFirstTime = false;
+                }
+            }
+           // DrawDebugCapsule(MeshComp->GetWorld(), Result.ImpactPoint, 50.f, 15.f, MeshComp->GetSocketQuaternion("SocketTrail_End"), FColor::Purple, false,5.f);
         }
-    
     }
-        
+}
+
+void UAttackAnimnotifyState::NotifyBegin(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation,
+    float TotalDuration)
+{
+    bIsFirstTime = true;
+
+}
+
+void UAttackAnimnotifyState::NotifyEnd(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation)
+{
+    bIsFirstTime = false;
 }

@@ -15,5 +15,9 @@ class STROLL_API UAttackAnimnotifyState : public UAnimNotifyState
 	GENERATED_BODY()
 public:
 	virtual void NotifyTick(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation, float FrameDeltaTime) override;
+	virtual void NotifyBegin(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation, float TotalDuration) override;
+	virtual void NotifyEnd(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation) override;
 	
+private:
+	bool bIsFirstTime = true;
 };
