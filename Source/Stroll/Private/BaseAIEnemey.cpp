@@ -3,6 +3,8 @@
 
 #include "BaseAIEnemey.h"
 
+#include "BaseCharAnimInstance.h"
+
 // Sets default values
 ABaseAIEnemey::ABaseAIEnemey()
 {
@@ -34,6 +36,13 @@ void ABaseAIEnemey::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 
 float ABaseAIEnemey::TakeDamage(float DamageAmount)
 {
+	UBaseCharAnimInstance* BaseCharAnimInstance = Cast<UBaseCharAnimInstance>(GetMesh()->GetAnimInstance());
+
+	if(BaseCharAnimInstance)
+	{
+		BaseCharAnimInstance->PlayTakeDamageAnim();
+	}
+	
 	Health = FMath::Clamp(Health - DamageAmount, 0.f, 100.f);
 	GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Orange, FString::Printf(TEXT("Current Health => %f"), Health));
 	return DamageAmount;
