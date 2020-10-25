@@ -26,4 +26,9 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	float TakeDamage(float DamageAmount);
+
+private:
+	float Health = 100.f;
+	
 };
