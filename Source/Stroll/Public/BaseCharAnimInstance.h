@@ -26,6 +26,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "AnimationUpdate")
 	UAnimMontage* TakeDamageMontage;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "AnimationUpdate")
+	UAnimMontage* DeathAnimMontage;
 	
 	UFUNCTION(BlueprintCallable, Category = "AnimationUpdate")
 	void UpdateMovementSpeed();
@@ -44,4 +47,5 @@ public:
 
 	void HeavyAttack();
 	void PlayTakeDamageAnim();
+	void PlayDeathAnimMontage();
 };

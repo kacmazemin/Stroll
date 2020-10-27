@@ -46,3 +46,8 @@ void UBaseCharAnimInstance::PlayTakeDamageAnim()
 {
     Montage_Play(TakeDamageMontage);
 }
+
+void UBaseCharAnimInstance::PlayDeathAnimMontage()
+{
+    Montage_Play(DeathAnimMontage);
+}
