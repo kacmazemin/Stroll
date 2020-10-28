@@ -44,10 +44,12 @@ float ABaseAIEnemey::TakeDamage(float DamageAmount)
 	}
 	
 	Health = FMath::Clamp(Health - DamageAmount, 0.f, 100.f);
-	if(Health == 0)
+	if(Health == 0.0f)
 	{
+		
 		BaseCharAnimInstance->PlayDeathAnimMontage();
 	}
+	
 	GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Orange, FString::Printf(TEXT("Current Health => %f"), Health));
 	return DamageAmount;
 }
