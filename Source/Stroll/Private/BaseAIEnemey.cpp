@@ -48,6 +48,13 @@ float ABaseAIEnemey::TakeDamage(float DamageAmount)
 	{
 		
 		BaseCharAnimInstance->PlayDeathAnimMontage();
+
+		FTimerHandle TimerHandle;
+
+		GetWorldTimerManager().SetTimer(TimerHandle, [=]()
+        {
+            this->Destroy();
+        }, 2.f, false);
 	}
 	
 	GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Orange, FString::Printf(TEXT("Current Health => %f"), Health));
