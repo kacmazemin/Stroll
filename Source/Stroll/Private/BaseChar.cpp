@@ -223,6 +223,11 @@ void ABaseChar::Attack(const bool IsHeavyAttack)
 	}
 }
 
+void ABaseChar::ShakeCamera()
+{
+	GetWorld()->GetFirstPlayerController()->PlayerCameraManager->PlayCameraShake(AttackCameraShake, 1.0f);
+}
+
 void ABaseChar::HandleStamina(const float DeltaTime)
 {
 	if(bIsSprinting)

@@ -40,6 +40,9 @@ protected:
 	UPROPERTY(EditAnywhere)
 	float CameraCurrentDistance = 350.0f;
 
+	UPROPERTY(EditAnywhere, Category = "Camera")
+	TSubclassOf<UCameraShake> AttackCameraShake;
+
 	UPROPERTY()
 	float CurrentStamina = 0.f;
 
@@ -61,6 +64,8 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GamePlay")
 	bool IsSwordUp = false;
+
+	void ShakeCamera();
 	
 protected:
 	
