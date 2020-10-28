@@ -5,6 +5,7 @@
 
 #include "BaseAIEnemey.h"
 #include "DrawDebugHelpers.h"
+#include "BaseChar.h"
 
 void UAttackAnimnotifyState::NotifyTick(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation, float FrameDeltaTime)
 {
@@ -18,13 +19,14 @@ void UAttackAnimnotifyState::NotifyTick(USkeletalMeshComponent* MeshComp, UAnimS
         FCollisionQueryParams Params;
         Params.bTraceComplex = true;
 
-        AActor* IgnoreActor = Cast<AActor>(MeshComp->GetAttachParent()->GetAttachmentRootActor());
-        if (IgnoreActor)
+        ABaseChar* BaseChar = Cast<ABaseChar>(MeshComp->GetAttachParent()->GetAttachmentRootActor());
+
+        if (BaseChar)
         {
-            Params.AddIgnoredActor(IgnoreActor);
+            Params.AddIgnoredActor(BaseChar);
         }
         
-       // DrawDebugCapsule(MeshComp->GetWorld(), EndPos, 50.f, 15.f, MeshComp->GetSocketQuaternion("SocketTrail_End"), FColor::Black, false,5.f);
+       //DrawDebugCapsule(MeshComp->GetWorld(), EndPos, 50.f, 15.f, MeshComp->GetSocketQuaternion("SocketTrail_End"), FColor::Black, false,5.f);
         
         bool bHit = MeshComp->GetWorld()->SweepSingleByChannel(Result, StartPos, EndPos, FQuat::Identity, ECC_Pawn, FCollisionShape::MakeCapsule(15.f,50.f), Params);
     
@@ -37,6 +39,12 @@ void UAttackAnimnotifyState::NotifyTick(USkeletalMeshComponent* MeshComp, UAnimS
                 if(bIsFirstTime)
                 {
                     EnemyActor->TakeDamage(50.f);
+                          
+                    if(BaseChar)
+                    {
+                        BaseChar->ShakeCamera();
+                    }
+                    
                     bIsFirstTime = false;
                 }
             }
