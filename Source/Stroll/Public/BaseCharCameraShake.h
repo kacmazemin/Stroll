@@ -13,5 +13,8 @@ UCLASS()
 class STROLL_API UBaseCharCameraShake : public UCameraShake
 {
 	GENERATED_BODY()
-	
+
+public:
+
+	UBaseCharCameraShake();
 };
