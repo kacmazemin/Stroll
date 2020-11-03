@@ -66,7 +66,7 @@ public:
 	bool IsSwordUp = false;
 
 	void ShakeCamera();
-	void SetTimeDilation();
+	void EnableSlowMotionAttack();
 	
 protected:
 	

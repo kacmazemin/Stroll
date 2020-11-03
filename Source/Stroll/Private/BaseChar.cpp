@@ -229,7 +229,7 @@ void ABaseChar::ShakeCamera()
 	GetWorld()->GetFirstPlayerController()->PlayerCameraManager->PlayCameraShake(AttackCameraShake, 1.0f);
 }
 
-void ABaseChar::SetTimeDilation()
+void ABaseChar::EnableSlowMotionAttack()
 {
 	UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 0.1); //Global slow motion.
 	this->CustomTimeDilation = 0.1; // Individual slow motion.
