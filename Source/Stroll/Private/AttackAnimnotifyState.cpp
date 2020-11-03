@@ -43,6 +43,7 @@ void UAttackAnimnotifyState::NotifyTick(USkeletalMeshComponent* MeshComp, UAnimS
                     if(BaseChar)
                     {
                         BaseChar->ShakeCamera();
+                        BaseChar->SetTimeDilation();
                     }
                     
                     bIsFirstTime = false;
