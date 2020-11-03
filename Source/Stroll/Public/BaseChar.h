@@ -66,6 +66,7 @@ public:
 	bool IsSwordUp = false;
 
 	void ShakeCamera();
+	void SetTimeDilation();
 	
 protected:
 	
@@ -102,4 +103,6 @@ private:
 	void HandleStamina(const float DeltaTime);
 	void UpdateHealth(const float HealthChange);
 	void HandleMouse(const bool IsDown);
+
+	FTimerHandle TimerHandle;
 };

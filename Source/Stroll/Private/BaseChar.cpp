@@ -9,6 +9,7 @@
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 ABaseChar::ABaseChar()
@@ -226,6 +227,19 @@ void ABaseChar::Attack(const bool IsHeavyAttack)
 void ABaseChar::ShakeCamera()
 {
 	GetWorld()->GetFirstPlayerController()->PlayerCameraManager->PlayCameraShake(AttackCameraShake, 1.0f);
+}
+
+void ABaseChar::SetTimeDilation()
+{
+	UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 0.1); //Global slow motion.
+	this->CustomTimeDilation = 0.1; // Individual slow motion.
+	
+	GetWorldTimerManager().SetTimer(TimerHandle, [this]()
+	{
+		UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 1.0); //Global slow motion.
+        this->CustomTimeDilation = 1.0; // Individual slow motion.
+	}, .025f, false);
+
 }
 
 void ABaseChar::HandleStamina(const float DeltaTime)
