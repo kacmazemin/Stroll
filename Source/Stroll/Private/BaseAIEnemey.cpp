@@ -4,12 +4,16 @@
 #include "BaseAIEnemey.h"
 
 #include "BaseCharAnimInstance.h"
+#include "Perception/PawnSensingComponent.h"
 
 // Sets default values
 ABaseAIEnemey::ABaseAIEnemey()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+
+	PawnSensingComponent = CreateDefaultSubobject<UPawnSensingComponent>(TEXT("PawnSensingComponent"));
+	PawnSensingComponent->OnSeePawn.AddDynamic(this, &ABaseAIEnemey::OnPawnSeen);
 
 }
 
@@ -18,6 +22,12 @@ void ABaseAIEnemey::BeginPlay()
 {
 	Super::BeginPlay();
 	
+}
+
+void ABaseAIEnemey::OnPawnSeen(APawn* SeenPawn)
+{
+
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("OnPawnSeen"));
 }
 
 // Called every frame
