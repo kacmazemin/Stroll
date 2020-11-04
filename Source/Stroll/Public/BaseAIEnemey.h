@@ -6,6 +6,8 @@
 #include "GameFramework/Character.h"
 #include "BaseAIEnemey.generated.h"
 
+class UPawnSensingComponent;
+
 UCLASS()
 class STROLL_API ABaseAIEnemey : public ACharacter
 {
@@ -19,6 +21,12 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	UPROPERTY(EditInstanceOnly, Category = "AISettings")
+	bool bIsPatrolEnable = false;
+
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+	UPawnSensingComponent* PawnSensingComponent;
+	
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
