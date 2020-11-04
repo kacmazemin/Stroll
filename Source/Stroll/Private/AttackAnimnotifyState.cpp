@@ -38,7 +38,7 @@ void UAttackAnimnotifyState::NotifyTick(USkeletalMeshComponent* MeshComp, UAnimS
             {
                 if(bIsFirstTime)
                 {
-                    EnemyActor->TakeDamage(50.f);
+                    EnemyActor->TakeDamage(1.f);
                           
                     if(BaseChar)
                     {
