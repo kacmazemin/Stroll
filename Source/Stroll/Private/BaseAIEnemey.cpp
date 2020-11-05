@@ -4,6 +4,8 @@
 #include "BaseAIEnemey.h"
 
 #include "BaseCharAnimInstance.h"
+#include "DrawDebugHelpers.h"
+#include "Blueprint/AIBlueprintHelperLibrary.h"
 #include "Perception/PawnSensingComponent.h"
 
 // Sets default values
@@ -22,10 +24,12 @@ void ABaseAIEnemey::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	MoveToNextLocation();
 }
 
 void ABaseAIEnemey::OnPawnSeen(APawn* SeenPawn)
 {
+	DrawDebugSphere(GetWorld(), SeenPawn->GetActorLocation(), 32.0f, 12, FColor::Emerald, false, 5.f);
 
 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("OnPawnSeen"));
 }
@@ -69,4 +73,12 @@ float ABaseAIEnemey::TakeDamage(float DamageAmount)
 	
 	GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Orange, FString::Printf(TEXT("Current Health => %f"), Health));
 	return DamageAmount;
+}
+
+void ABaseAIEnemey::MoveToNextLocation()
+{
+	if(FirstTargetPosition)
+	{
+		UAIBlueprintHelperLibrary::SimpleMoveToActor(GetController(), FirstTargetPosition);		
+	}
 }

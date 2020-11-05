@@ -27,6 +27,9 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	UPawnSensingComponent* PawnSensingComponent;
 
+	UPROPERTY(EditInstanceOnly, Category = "AISettings", meta = (EditCondition = "bIsPatrolEnable") )
+	AActor* FirstTargetPosition;
+	
 	UFUNCTION()
     void OnPawnSeen(APawn* SeenPawn);
 	
@@ -41,5 +44,6 @@ public:
 
 private:
 	float Health = 100.f;
-	
+
+	void MoveToNextLocation();
 };
