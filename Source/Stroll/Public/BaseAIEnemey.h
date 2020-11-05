@@ -30,6 +30,11 @@ protected:
 	UPROPERTY(EditInstanceOnly, Category = "AISettings", meta = (EditCondition = "bIsPatrolEnable") )
 	AActor* FirstTargetPosition;
 	
+	UPROPERTY(EditInstanceOnly, Category = "AISettings", meta = (EditCondition = "bIsPatrolEnable") )
+	AActor* SecondTargetPosition;
+
+	AActor* CurrentTargetPosition;
+	
 	UFUNCTION()
     void OnPawnSeen(APawn* SeenPawn);
 	

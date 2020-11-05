@@ -23,8 +23,12 @@ ABaseAIEnemey::ABaseAIEnemey()
 void ABaseAIEnemey::BeginPlay()
 {
 	Super::BeginPlay();
+
+	if(bIsPatrolEnable)
+	{
+		MoveToNextLocation();
+	}
 	
-	MoveToNextLocation();
 }
 
 void ABaseAIEnemey::OnPawnSeen(APawn* SeenPawn)
@@ -39,6 +43,16 @@ void ABaseAIEnemey::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if(CurrentTargetPosition)
+	{
+		const FVector Delta = GetActorLocation() - CurrentTargetPosition->GetActorLocation();
+		const float DistanceToGoal = Delta.Size();
+
+		if(DistanceToGoal < 100)
+		{
+			MoveToNextLocation();
+		}
+	}
 }
 
 // Called to bind functionality to input
@@ -76,9 +90,15 @@ float ABaseAIEnemey::TakeDamage(float DamageAmount)
 }
 
 void ABaseAIEnemey::MoveToNextLocation()
-{
-	if(FirstTargetPosition)
+{	
+	if(CurrentTargetPosition == nullptr || CurrentTargetPosition == SecondTargetPosition)
 	{
-		UAIBlueprintHelperLibrary::SimpleMoveToActor(GetController(), FirstTargetPosition);		
+		CurrentTargetPosition = FirstTargetPosition;
 	}
+	else
+	{
+		CurrentTargetPosition = SecondTargetPosition;
+	}
+	
+	UAIBlueprintHelperLibrary::SimpleMoveToActor(GetController(), CurrentTargetPosition);
 }
